@@ -1,7 +1,7 @@
 import apiClient from "@/services/api-client";
 import { useQuery } from "@tanstack/react-query";
 
-type TV = {
+export type TV = {
   id: number;
   name: string;
   overview: string;
@@ -13,10 +13,17 @@ type TV = {
   origin_country: string[];
 };
 
-const useTvs = () =>
+export type TVEndpoint =
+  | "airing_today"
+  | "on_the_air"
+  | "popular"
+  | "top_rated";
+
+const useTvs = (endpoint: TVEndpoint = "popular") =>
   useQuery<TV[]>({
-    queryKey: ["tvs"],
-    queryFn: () => apiClient.get("/tv/popular").then((res) => res.data.results),
+    queryKey: ["tvs", endpoint],
+    queryFn: () =>
+      apiClient.get(`/tv/${endpoint}`).then((res) => res.data.results),
   });
 
 export default useTvs;

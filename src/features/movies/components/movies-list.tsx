@@ -2,7 +2,7 @@ import EndpointSelector from "@/components/endpoint-selector";
 import Placeholder from "@/components/placeholder";
 import { LucideLoader } from "lucide-react";
 import { useState } from "react";
-import { titles } from "../constanst";
+import { titles } from "../constants";
 import type { MovieEndpoint } from "../hooks/queries/use-movies";
 import useMovies from "../hooks/queries/use-movies";
 import MovieCard from "./movie-card";
