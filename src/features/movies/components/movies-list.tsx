@@ -6,9 +6,10 @@ import { titles } from "../constants";
 import type { MovieEndpoint } from "../hooks/queries/use-movies";
 import useMovies from "../hooks/queries/use-movies";
 import MovieCard from "./movie-card";
+import useEndpoint from "@/state-management/hooks/useEndpoint";
 
 const MoviesList = () => {
-  const [movieEndpoint, setMovieEndpoint] = useState<MovieEndpoint>("popular");
+  const { movieEndpoint, setMovieEndpoint } = useEndpoint();
   const { data: movies, isLoading, error } = useMovies(movieEndpoint);
 
   if (error) return <Placeholder title="Failed to load movies." />;

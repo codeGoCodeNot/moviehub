@@ -20,7 +20,7 @@ const EndpointSelector = <T extends string>({
 }: EndpointSelectorProps<T>) => {
   return (
     <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger className="w-[150px]">
+      <SelectTrigger className="w-[180px]">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

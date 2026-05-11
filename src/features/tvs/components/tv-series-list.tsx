@@ -1,13 +1,13 @@
 import Placeholder from "@/components/placeholder";
 import { LucideLoader } from "lucide-react";
-import useTvs, { TVEndpoint } from "../hooks/queries/use-tvs";
+import useTvs from "../hooks/queries/use-tvs";
 import TvCard from "./tv-card";
 import EndpointSelector from "@/components/endpoint-selector";
-import { useState } from "react";
 import { titles } from "../constants";
+import useEndpoint from "@/state-management/hooks/useEndpoint";
 
 const TvSeriesList = () => {
-  const [tvEndpoint, setTvEndpoint] = useState<TVEndpoint>("popular");
+  const { tvEndpoint, setTvEndpoint } = useEndpoint();
   const { data: tvs, error, isLoading } = useTvs(tvEndpoint);
 
   if (error) return <Placeholder title="Failed to load movies." />;
