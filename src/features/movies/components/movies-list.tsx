@@ -2,9 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import useMovies from "../hooks/queries/use-movies";
 import { LucideLoader } from "lucide-react";
 import Placeholder from "@/components/placeholder";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 const MoviesList = () => {
   const { data: movies, isLoading, error } = useMovies();
+  const [expandedId, setExpandedId] = useState<number | null>(null);
 
   if (error) return <Placeholder title="Failed to load movies." />;
 
@@ -36,7 +39,22 @@ const MoviesList = () => {
                 </span>
               </CardTitle>
             </CardHeader>
-            <CardContent></CardContent>
+            <CardContent>
+              <p className="text-muted-foreground">
+                {expandedId === movie.id
+                  ? movie.overview
+                  : `${movie.overview.substring(0, 100)}...`}
+              </p>
+              <Button
+                variant="link"
+                onClick={() =>
+                  setExpandedId(expandedId === movie.id ? null : movie.id)
+                }
+                className="px-0 text-muted-foreground text-xs"
+              >
+                {expandedId === movie.id ? "Show Less" : "Read More"}
+              </Button>
+            </CardContent>
           </Card>
         ))}
       </div>
