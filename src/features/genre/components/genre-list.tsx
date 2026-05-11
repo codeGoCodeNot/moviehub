@@ -9,7 +9,7 @@ const GenreList = () => {
   const { setSelectedGenreId, selectedGenreId } = useEndpointStore();
 
   return (
-    <div className="w-[320px] shrink-0 px-5 hidden lg:block">
+    <div className="w-[320px] shrink-0 px-5 hidden md:block">
       <Card className="w-[300px]">
         <CardHeader>
           <CardTitle className="text-lg">Genres</CardTitle>
