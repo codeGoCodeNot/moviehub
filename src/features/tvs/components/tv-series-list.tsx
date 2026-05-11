@@ -33,7 +33,7 @@ const TvSeriesList = () => {
     <div className="py-15 px-10">
       <div className="flex gap-x-2">
         <div>
-          <h1 className="text-3xl font-bold mb-8">Popular TV Series</h1>
+          <h1 className="text-3xl font-bold mb-8">{titles[tvEndpoint]}</h1>
         </div>
         <EndpointSelector
           onValueChange={setTvEndpoint}

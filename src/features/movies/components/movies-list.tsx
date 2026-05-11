@@ -12,7 +12,9 @@ const MoviesList = () => {
   const setMovieEndpoint = useEndpointStore((s) => s.setMovieEndpoint);
   const selectedGenreId = useEndpointStore((s) => s.selectedGenreId);
   const setSelectedGenreId = useEndpointStore((s) => s.setSelectedGenreId);
-  const setCurrentContentType = useEndpointStore((s) => s.setCurrentContentType);
+  const setCurrentContentType = useEndpointStore(
+    (s) => s.setCurrentContentType,
+  );
 
   useEffect(() => {
     setCurrentContentType("movie");
@@ -37,7 +39,7 @@ const MoviesList = () => {
     <div className="py-15 px-10">
       <div className="flex gap-x-2">
         <div>
-          <h1 className="text-3xl font-bold mb-8">Popular Movies</h1>
+          <h1 className="text-3xl font-bold mb-8">{titles[movieEndpoint]}</h1>
         </div>
         <EndpointSelector
           value={movieEndpoint}
@@ -45,7 +47,10 @@ const MoviesList = () => {
           titles={titles}
         />
       </div>
-      <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}>
+      <div
+        className="grid gap-6"
+        style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}
+      >
         {movies?.map((movie) => (
           <MovieCard movie={movie} key={movie.id} />
         ))}

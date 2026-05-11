@@ -1,4 +1,4 @@
-import Heading from "./components/layout/heading";
+import ContentBrowser from "./components/layout/content-browser";
 import Navbar from "./components/layout/navbar";
 import GenreList from "./features/genre/components/genre-list";
 
@@ -12,7 +12,7 @@ const App = () => {
           <GenreList />
         </div>
         <div className="flex-1 min-w-0">
-          <Heading />
+          <ContentBrowser />
         </div>
       </div>
     </div>
