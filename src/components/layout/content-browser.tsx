@@ -5,6 +5,7 @@ import GenreStrip from "@/features/genre/components/genre-strip";
 import useEndpointStore from "@/state-management/stores/useEndPointStore";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import SearchResult from "@/features/search/components/search-result";
 
 const TABS = [
   { value: "movies", label: "Movies" },
@@ -15,6 +16,11 @@ const TABS = [
 const ContentBrowser = () => {
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const setSelectedGenreId = useEndpointStore((s) => s.setSelectedGenreId);
+  const searchQuery = useEndpointStore((s) => s.searchQuery);
+
+  if (searchQuery) {
+    return <SearchResult />;
+  }
 
   const handleTabClick = (value: string) => {
     if (value === activeTab) {

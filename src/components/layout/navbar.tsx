@@ -1,3 +1,4 @@
+import SearchInput from "@/features/search/components/search-input";
 import { LucideFilm } from "lucide-react";
 
 const Navbar = () => {
@@ -19,6 +20,7 @@ const Navbar = () => {
           Movie Query
         </span>
       </div>
+      <SearchInput />
     </div>
   );
 };

@@ -29,6 +29,17 @@ const PersonCard = ({ person }: PersonCardProps) => {
             </span>
             <Badge>{person.known_for_department}</Badge>
           </div>
+          <div className="flex gap-x-1 items-center">
+            {Array.from(
+              new Set(person.known_for.map((work) => work.media_type)),
+            ).map((mediaType) => (
+              <div>
+                <Badge key={mediaType} variant="outline">
+                  {mediaType}
+                </Badge>
+              </div>
+            ))}
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent>

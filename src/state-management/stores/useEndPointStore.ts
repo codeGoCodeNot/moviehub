@@ -10,11 +10,13 @@ type EndpointStore = {
   peopleEndpoint: PeopleEndpoint;
   selectedGenreId: number | null;
   currentContentType: "movie" | "tv" | "people";
+  searchQuery: string;
   setMovieEndpoint: (endpoint: MovieEndpoint) => void;
   setTvEndpoint: (endpoint: TVEndpoint) => void;
   setPeopleEndpoint: (endpoint: PeopleEndpoint) => void;
   setSelectedGenreId: (genreId: number | null) => void;
   setCurrentContentType: (contentType: "movie" | "tv" | "people") => void;
+  setSearchQuery: (query: string) => void;
 };
 
 const useEndpointStore = create<EndpointStore>()(
@@ -24,12 +26,14 @@ const useEndpointStore = create<EndpointStore>()(
     peopleEndpoint: "popular",
     selectedGenreId: null,
     currentContentType: "movie",
+    searchQuery: "",
     setMovieEndpoint: (endpoint) => set({ movieEndpoint: endpoint }),
     setTvEndpoint: (endpoint) => set({ tvEndpoint: endpoint }),
     setPeopleEndpoint: (endpoint) => set({ peopleEndpoint: endpoint }),
     setSelectedGenreId: (genreId) => set({ selectedGenreId: genreId }),
     setCurrentContentType: (contentType) =>
       set({ currentContentType: contentType }),
+    setSearchQuery: (query) => set({ searchQuery: query }),
   })),
 );
 
