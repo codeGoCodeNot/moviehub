@@ -11,12 +11,10 @@ const PeopleList = () => {
   const peopleEndpoint = useEndpointStore((s) => s.peopleEndpoint);
   const setPeopleEndpoint = useEndpointStore((s) => s.setPeopleEndpoint);
   const setSelectedGenreId = useEndpointStore((s) => s.setSelectedGenreId);
-  const setCurrentContentType = useEndpointStore((s) => s.setCurrentContentType);
 
   useEffect(() => {
-    setCurrentContentType("people");
     setSelectedGenreId(null);
-  }, [setCurrentContentType, setSelectedGenreId]);
+  }, [setSelectedGenreId]);
   const { data: people, isLoading, error } = usePeople();
 
   if (error) return <Placeholder title="Failed to load people." />;
