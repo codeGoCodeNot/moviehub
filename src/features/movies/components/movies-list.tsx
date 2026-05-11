@@ -1,10 +1,10 @@
 import EndpointSelector from "@/components/endpoint-selector";
 import Placeholder from "@/components/placeholder";
 import useEndpointStore from "@/state-management/stores/useEndPointStore";
-import { LucideLoader } from "lucide-react";
 import { titles } from "../constants";
 import useMovies from "../hooks/queries/use-movies";
 import MovieCard from "./movie-card";
+import MovieCardSkeleton from "./movie-card-skeleton";
 import { useEffect } from "react";
 
 const MoviesList = () => {
@@ -30,9 +30,16 @@ const MoviesList = () => {
 
   if (isLoading)
     return (
-      <Placeholder
-        title={<LucideLoader className="animate-spin text-gray-500" />}
-      />
+      <div className="py-15 px-10">
+        <div
+          className="grid gap-6"
+          style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}
+        >
+          {Array.from({ length: 8 }).map((_, i) => (
+            <MovieCardSkeleton key={i} />
+          ))}
+        </div>
+      </div>
     );
 
   return (

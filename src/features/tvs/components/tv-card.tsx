@@ -14,7 +14,11 @@ const TvCard = ({ tv }: TvCardProps) => {
     <Card className="pt-0">
       <div>
         <img
-          src={`https://image.tmdb.org/t/p/original${tv.poster_path}`}
+          src={
+            tv.poster_path
+              ? `https://image.tmdb.org/t/p/original${tv.poster_path}`
+              : "/placeholder.png"
+          }
           alt={tv.name}
           loading="lazy"
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"

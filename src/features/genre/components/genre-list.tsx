@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LucideLoader } from "lucide-react";
 import useGenres from "../hooks/queries/use-genres";
 import useEndpointStore from "@/state-management/stores/useEndPointStore";
+import GenreListSkeleton from "./genre-list-skeleton";
 
 const GenreList = () => {
   const { data: genres, isLoading, error } = useGenres("movie");
@@ -19,12 +19,7 @@ const GenreList = () => {
           {error && (
             <p className="text-sm text-red-500">Failed to load genres.</p>
           )}
-          {isLoading && (
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <LucideLoader className="animate-spin size-4 shrink-0" />
-              <span>Fetching genres…</span>
-            </div>
-          )}
+          {isLoading && <GenreListSkeleton />}
           {!isLoading && !error && (
             <div className="flex flex-wrap gap-2">
               {genres?.map((genre) => (

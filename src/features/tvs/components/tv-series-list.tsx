@@ -1,7 +1,7 @@
 import Placeholder from "@/components/placeholder";
-import { LucideLoader } from "lucide-react";
 import useTvs from "../hooks/queries/use-tvs";
 import TvCard from "./tv-card";
+import TvCardSkeleton from "./tv-card-skeleton";
 import EndpointSelector from "@/components/endpoint-selector";
 import { titles } from "../constants";
 import useEndpointStore from "@/state-management/stores/useEndPointStore";
@@ -24,9 +24,16 @@ const TvSeriesList = () => {
 
   if (isLoading)
     return (
-      <Placeholder
-        title={<LucideLoader className="animate-spin text-gray-500" />}
-      />
+      <div className="py-15 px-10">
+        <div
+          className="grid gap-6"
+          style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}
+        >
+          {Array.from({ length: 8 }).map((_, i) => (
+            <TvCardSkeleton key={i} />
+          ))}
+        </div>
+      </div>
     );
 
   return (

@@ -15,7 +15,11 @@ const MovieCard = ({ movie }: MovieCardProps) => {
     <Card className="pt-0 min-w-[300px]">
       <div>
         <img
-          src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+          src={
+            movie.poster_path
+              ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
+              : "/placeholder.png"
+          }
           alt={movie.title}
           className="w-full h-full object-cover"
           loading="lazy"

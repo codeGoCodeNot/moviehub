@@ -1,10 +1,10 @@
 import Placeholder from "@/components/placeholder";
-import { LucideLoader } from "lucide-react";
 import usePeople from "../hooks/queries/use-people";
 import EndpointSelector from "@/components/endpoint-selector";
 import useEndpointStore from "@/state-management/stores/useEndPointStore";
 import { titles } from "../constants";
 import PersonCard from "./person-card";
+import PersonCardSkeleton from "./person-card-skeleton";
 import { useEffect } from "react";
 
 const PeopleList = () => {
@@ -23,9 +23,16 @@ const PeopleList = () => {
 
   if (isLoading)
     return (
-      <Placeholder
-        title={<LucideLoader className="animate-spin text-gray-500" />}
-      />
+      <div className="py-15 px-10">
+        <div
+          className="grid gap-6"
+          style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}
+        >
+          {Array.from({ length: 8 }).map((_, i) => (
+            <PersonCardSkeleton key={i} />
+          ))}
+        </div>
+      </div>
     );
 
   return (
