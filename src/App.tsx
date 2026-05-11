@@ -1,3 +1,4 @@
+import Heading from "./components/layout/heading";
 import Navbar from "./components/layout/navbar";
 import MoviesList from "./features/movies/components/movies-list";
 import PeopleList from "./features/people/components/people-list";
@@ -7,9 +8,12 @@ const App = () => {
   return (
     <div className="flex flex-col gap-y-5">
       <Navbar />
-      <MoviesList />
-      <TvSeriesList />
-      <PeopleList />
+      <div className="py-20">
+        <Heading />
+        <MoviesList />
+        <TvSeriesList />
+        <PeopleList />
+      </div>
     </div>
   );
 };

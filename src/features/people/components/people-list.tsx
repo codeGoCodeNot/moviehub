@@ -20,7 +20,7 @@ const PeopleList = () => {
     );
 
   return (
-    <div className="py-20 px-10">
+    <div className="py-15 px-10">
       <div className="flex gap-x-2">
         <div>
           <h1 className="text-3xl font-bold mb-8">Popular People</h1>
