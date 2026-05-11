@@ -6,7 +6,8 @@ import useEndpointStore from "@/state-management/stores/useEndPointStore";
 
 const GenreList = () => {
   const { data: genres, isLoading, error } = useGenres("movie");
-  const { setSelectedGenreId, selectedGenreId } = useEndpointStore();
+  const selectedGenreId = useEndpointStore((s) => s.selectedGenreId);
+  const setSelectedGenreId = useEndpointStore((s) => s.setSelectedGenreId);
 
   return (
     <div className="w-[320px] shrink-0 px-5 hidden md:block">

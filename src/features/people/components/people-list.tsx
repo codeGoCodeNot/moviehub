@@ -2,18 +2,16 @@ import Placeholder from "@/components/placeholder";
 import { LucideLoader } from "lucide-react";
 import usePeople from "../hooks/queries/use-people";
 import EndpointSelector from "@/components/endpoint-selector";
-import useEndpoint from "@/state-management/hooks/useEndpoint";
+import useEndpointStore from "@/state-management/stores/useEndPointStore";
 import { titles } from "../constants";
 import PersonCard from "./person-card";
 import { useEffect } from "react";
 
 const PeopleList = () => {
-  const {
-    peopleEndpoint,
-    setPeopleEndpoint,
-    setSelectedGenreId,
-    setCurrentContentType,
-  } = useEndpoint();
+  const peopleEndpoint = useEndpointStore((s) => s.peopleEndpoint);
+  const setPeopleEndpoint = useEndpointStore((s) => s.setPeopleEndpoint);
+  const setSelectedGenreId = useEndpointStore((s) => s.setSelectedGenreId);
+  const setCurrentContentType = useEndpointStore((s) => s.setCurrentContentType);
 
   useEffect(() => {
     setCurrentContentType("people");

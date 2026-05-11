@@ -1,6 +1,6 @@
 import EndpointSelector from "@/components/endpoint-selector";
 import Placeholder from "@/components/placeholder";
-import useEndpoint from "@/state-management/hooks/useEndpoint";
+import useEndpointStore from "@/state-management/stores/useEndPointStore";
 import { LucideLoader } from "lucide-react";
 import { titles } from "../constants";
 import useMovies from "../hooks/queries/use-movies";
@@ -8,13 +8,11 @@ import MovieCard from "./movie-card";
 import { useEffect } from "react";
 
 const MoviesList = () => {
-  const {
-    movieEndpoint,
-    setMovieEndpoint,
-    selectedGenreId,
-    setSelectedGenreId,
-    setCurrentContentType,
-  } = useEndpoint();
+  const movieEndpoint = useEndpointStore((s) => s.movieEndpoint);
+  const setMovieEndpoint = useEndpointStore((s) => s.setMovieEndpoint);
+  const selectedGenreId = useEndpointStore((s) => s.selectedGenreId);
+  const setSelectedGenreId = useEndpointStore((s) => s.setSelectedGenreId);
+  const setCurrentContentType = useEndpointStore((s) => s.setCurrentContentType);
 
   useEffect(() => {
     setCurrentContentType("movie");

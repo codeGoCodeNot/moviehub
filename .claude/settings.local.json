@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"d:\\\\code\\\\moviehub\" -Recurse -File)",
+      "Bash(Select-Object FullName)"
+    ]
+  }
+}

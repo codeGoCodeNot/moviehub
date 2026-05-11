@@ -4,17 +4,15 @@ import useTvs from "../hooks/queries/use-tvs";
 import TvCard from "./tv-card";
 import EndpointSelector from "@/components/endpoint-selector";
 import { titles } from "../constants";
-import useEndpoint from "@/state-management/hooks/useEndpoint";
+import useEndpointStore from "@/state-management/stores/useEndPointStore";
 import { useEffect } from "react";
 
 const TvSeriesList = () => {
-  const {
-    tvEndpoint,
-    setTvEndpoint,
-    selectedGenreId,
-    setSelectedGenreId,
-    setCurrentContentType,
-  } = useEndpoint();
+  const tvEndpoint = useEndpointStore((s) => s.tvEndpoint);
+  const setTvEndpoint = useEndpointStore((s) => s.setTvEndpoint);
+  const selectedGenreId = useEndpointStore((s) => s.selectedGenreId);
+  const setSelectedGenreId = useEndpointStore((s) => s.setSelectedGenreId);
+  const setCurrentContentType = useEndpointStore((s) => s.setCurrentContentType);
 
   useEffect(() => {
     setCurrentContentType("tv");
