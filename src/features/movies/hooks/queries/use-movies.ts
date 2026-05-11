@@ -1,7 +1,7 @@
 import apiClient from "@/services/api-client";
 import { useQuery } from "@tanstack/react-query";
 
-type Movie = {
+export type Movie = {
   id: number;
   title: string;
   overview: string;
@@ -11,11 +11,17 @@ type Movie = {
   vote_average: number;
 };
 
-const useMovies = () =>
+export type MovieEndpoint =
+  | "popular"
+  | "top_rated"
+  | "upcoming"
+  | "now_playing";
+
+const useMovies = (endpoint: MovieEndpoint = "popular") =>
   useQuery<Movie[]>({
-    queryKey: ["movies"],
+    queryKey: ["movies", endpoint],
     queryFn: () =>
-      apiClient.get("/movie/popular").then((res) => res.data.results),
+      apiClient.get(`/movie/${endpoint}`).then((res) => res.data.results),
   });
 
 export default useMovies;
