@@ -16,6 +16,7 @@ const Navbar = () => {
             backgroundClip: "text",
             letterSpacing: "-0.5px",
           }}
+          className="md:block hidden"
         >
           Movie Query
         </span>

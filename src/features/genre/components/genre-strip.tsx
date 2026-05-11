@@ -9,11 +9,14 @@ import useGenres from "../hooks/queries/use-genres";
 import useEndpointStore from "@/state-management/stores/useEndPointStore";
 
 const GenreStrip = () => {
-  const { data: genres, isLoading, error } = useGenres("movie");
+  const activeTab = useEndpointStore((s) => s.activeTab);
   const selectedGenreId = useEndpointStore((s) => s.selectedGenreId);
   const setSelectedGenreId = useEndpointStore((s) => s.setSelectedGenreId);
 
-  if (error || isLoading) return null;
+  const genreType = activeTab === "tv" ? "tv" : "movie";
+  const { data: genres, isLoading, error } = useGenres(genreType);
+
+  if (activeTab === "people" || error || isLoading) return null;
 
   return (
     <div className="md:hidden px-10 pb-2">

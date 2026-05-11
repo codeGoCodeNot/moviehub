@@ -5,9 +5,14 @@ import useEndpointStore from "@/state-management/stores/useEndPointStore";
 import GenreListSkeleton from "./genre-list-skeleton";
 
 const GenreList = () => {
-  const { data: genres, isLoading, error } = useGenres("movie");
+  const activeTab = useEndpointStore((s) => s.activeTab);
   const selectedGenreId = useEndpointStore((s) => s.selectedGenreId);
   const setSelectedGenreId = useEndpointStore((s) => s.setSelectedGenreId);
+
+  const genreType = activeTab === "tv" ? "tv" : "movie";
+  const { data: genres, isLoading, error } = useGenres(genreType);
+
+  if (activeTab === "people") return null;
 
   return (
     <div className="w-[320px] shrink-0 px-5 hidden md:block">

@@ -1,4 +1,5 @@
 import MovieCard from "@/features/movies/components/movie-card";
+import MovieCardSkeleton from "@/features/movies/components/movie-card-skeleton";
 import { useSearchMovies } from "@/features/search/hooks/use-search-movies";
 import useEndpointStore from "@/state-management/stores/useEndPointStore";
 import { useSearchTv } from "../hooks/use-search-tv";
@@ -8,9 +9,25 @@ import PersonCard from "@/features/people/components/person-card";
 
 const SearchResult = () => {
   const searchQuery = useEndpointStore((s) => s.searchQuery);
-  const { data: movieData } = useSearchMovies(searchQuery);
-  const { data: tvData } = useSearchTv(searchQuery);
-  const { data: personData } = useSearchPerson(searchQuery);
+  const { data: movieData, isLoading: moviesLoading } = useSearchMovies(searchQuery);
+  const { data: tvData, isLoading: tvsLoading } = useSearchTv(searchQuery);
+  const { data: personData, isLoading: personsLoading } = useSearchPerson(searchQuery);
+
+  const isLoading = moviesLoading || tvsLoading || personsLoading;
+
+  if (isLoading)
+    return (
+      <div className="py-15 px-10">
+        <div
+          className="grid gap-6"
+          style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}
+        >
+          {Array.from({ length: 8 }).map((_, i) => (
+            <MovieCardSkeleton key={i} />
+          ))}
+        </div>
+      </div>
+    );
 
   return (
     <div className="py-15 px-10">

@@ -4,7 +4,6 @@ import TvSeriesList from "@/features/tvs/components/tv-series-list";
 import GenreStrip from "@/features/genre/components/genre-strip";
 import useEndpointStore from "@/state-management/stores/useEndPointStore";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import SearchResult from "@/features/search/components/search-result";
 
 const TABS = [
@@ -14,7 +13,8 @@ const TABS = [
 ];
 
 const ContentBrowser = () => {
-  const [activeTab, setActiveTab] = useState<string | null>(null);
+  const activeTab = useEndpointStore((s) => s.activeTab);
+  const setActiveTab = useEndpointStore((s) => s.setActiveTab);
   const setSelectedGenreId = useEndpointStore((s) => s.setSelectedGenreId);
   const searchQuery = useEndpointStore((s) => s.searchQuery);
 
