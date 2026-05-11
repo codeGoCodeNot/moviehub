@@ -5,9 +5,25 @@ import TvCard from "./tv-card";
 import EndpointSelector from "@/components/endpoint-selector";
 import { titles } from "../constants";
 import useEndpoint from "@/state-management/hooks/useEndpoint";
+import { useEffect } from "react";
 
 const TvSeriesList = () => {
-  const { tvEndpoint, setTvEndpoint, selectedGenreId } = useEndpoint();
+  const {
+    tvEndpoint,
+    setTvEndpoint,
+    selectedGenreId,
+    setSelectedGenreId,
+    currentContentType,
+    setCurrentContentType,
+  } = useEndpoint();
+
+  useEffect(() => {
+    setCurrentContentType("tv");
+  }, [setCurrentContentType]);
+
+  useEffect(() => {
+    setSelectedGenreId(null);
+  }, [currentContentType, setSelectedGenreId]);
   const { data: tvs, error, isLoading } = useTvs(tvEndpoint, selectedGenreId);
 
   if (error) return <Placeholder title="Failed to load tv series." />;

@@ -7,12 +7,11 @@ const App = () => {
     <div className="flex flex-col gap-y-5">
       <Navbar />
 
-      <div className="flex justify-center">
-        <div>
+      <div className="flex">
+        <div className="mt-63">
           <GenreList />
         </div>
-
-        <div>
+        <div className="flex-1 min-w-0">
           <Heading />
         </div>
       </div>

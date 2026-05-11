@@ -5,9 +5,25 @@ import { LucideLoader } from "lucide-react";
 import { titles } from "../constants";
 import useMovies from "../hooks/queries/use-movies";
 import MovieCard from "./movie-card";
+import { useEffect } from "react";
 
 const MoviesList = () => {
-  const { movieEndpoint, setMovieEndpoint, selectedGenreId } = useEndpoint();
+  const {
+    movieEndpoint,
+    setMovieEndpoint,
+    selectedGenreId,
+    setSelectedGenreId,
+    currentContentType,
+    setCurrentContentType,
+  } = useEndpoint();
+
+  useEffect(() => {
+    setCurrentContentType("movie");
+  }, [setCurrentContentType]);
+
+  useEffect(() => {
+    setSelectedGenreId(null);
+  }, [currentContentType, setSelectedGenreId]);
   const {
     data: movies,
     isLoading,

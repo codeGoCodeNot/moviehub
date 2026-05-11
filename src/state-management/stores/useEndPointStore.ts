@@ -9,10 +9,12 @@ type EndpointStore = {
   tvEndpoint: TVEndpoint;
   peopleEndpoint: PeopleEndpoint;
   selectedGenreId: number | null;
+  currentContentType: "movie" | "tv" | "people";
   setMovieEndpoint: (endpoint: MovieEndpoint) => void;
   setTvEndpoint: (endpoint: TVEndpoint) => void;
   setPeopleEndpoint: (endpoint: PeopleEndpoint) => void;
   setSelectedGenreId: (genreId: number | null) => void;
+  setCurrentContentType: (contentType: "movie" | "tv" | "people") => void;
 };
 
 const useEndpointStore = create<EndpointStore>()(
@@ -21,10 +23,13 @@ const useEndpointStore = create<EndpointStore>()(
     tvEndpoint: "popular",
     peopleEndpoint: "popular",
     selectedGenreId: null,
+    currentContentType: "movie",
     setMovieEndpoint: (endpoint) => set({ movieEndpoint: endpoint }),
     setTvEndpoint: (endpoint) => set({ tvEndpoint: endpoint }),
     setPeopleEndpoint: (endpoint) => set({ peopleEndpoint: endpoint }),
     setSelectedGenreId: (genreId) => set({ selectedGenreId: genreId }),
+    setCurrentContentType: (contentType) =>
+      set({ currentContentType: contentType }),
   })),
 );
 

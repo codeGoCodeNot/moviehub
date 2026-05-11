@@ -13,6 +13,12 @@ const useEndpoint = () => {
   const setSelectedGenreId = useEndpointStore(
     (state) => state.setSelectedGenreId,
   );
+  const currentContentType = useEndpointStore(
+    (state) => state.currentContentType,
+  );
+  const setCurrentContentType = useEndpointStore(
+    (state) => state.setCurrentContentType,
+  );
 
   return {
     movieEndpoint,
@@ -23,6 +29,8 @@ const useEndpoint = () => {
     setTvEndpoint,
     setPeopleEndpoint,
     setSelectedGenreId,
+    currentContentType,
+    setCurrentContentType,
   };
 };
 

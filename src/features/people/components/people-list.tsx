@@ -5,9 +5,24 @@ import EndpointSelector from "@/components/endpoint-selector";
 import useEndpoint from "@/state-management/hooks/useEndpoint";
 import { titles } from "../constants";
 import PersonCard from "./person-card";
+import { useEffect } from "react";
 
 const PeopleList = () => {
-  const { peopleEndpoint, setPeopleEndpoint } = useEndpoint();
+  const {
+    peopleEndpoint,
+    setPeopleEndpoint,
+    setSelectedGenreId,
+    currentContentType,
+    setCurrentContentType,
+  } = useEndpoint();
+
+  useEffect(() => {
+    setCurrentContentType("people");
+  }, [setCurrentContentType]);
+
+  useEffect(() => {
+    setSelectedGenreId(null);
+  }, [currentContentType, setSelectedGenreId]);
   const { data: people, isLoading, error } = usePeople();
 
   if (error) return <Placeholder title="Failed to load people." />;
