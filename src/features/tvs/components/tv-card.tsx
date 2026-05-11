@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
 import { TV } from "../hooks/queries/use-tvs";
+import { Badge } from "@/components/ui/badge";
 
 type TvCardProps = {
   tv: TV;
@@ -15,14 +16,22 @@ const TvCard = ({ tv }: TvCardProps) => {
         <img
           src={`https://image.tmdb.org/t/p/original${tv.poster_path}`}
           alt={tv.name}
+          loading="lazy"
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
         />
       </div>
       <CardHeader>
-        <CardTitle>
-          <span className="text-xl font-semibold tracking-tighter">
-            {tv.name}
-          </span>
+        <CardTitle className="flex flex-col gap-y-2">
+          <div className="flex items-center gap-x-4">
+            <span className="text-xl font-semibold tracking-tighter">
+              {tv.name}
+            </span>
+
+            <Badge>{tv.vote_average.toFixed(1)}</Badge>
+          </div>
+          <div className="text-sm text-muted-foreground">
+            first air date: {tv.first_air_date}
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent>

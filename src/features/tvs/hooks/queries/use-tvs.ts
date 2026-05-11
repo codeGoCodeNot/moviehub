@@ -24,6 +24,7 @@ const useTvs = (endpoint: TVEndpoint = "popular") =>
     queryKey: ["tvs", endpoint],
     queryFn: () =>
       apiClient.get(`/tv/${endpoint}`).then((res) => res.data.results),
+    staleTime: 1000 * 60 * 60 * 24, // 24 hours
   });
 
 export default useTvs;

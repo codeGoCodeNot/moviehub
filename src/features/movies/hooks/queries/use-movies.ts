@@ -22,6 +22,7 @@ const useMovies = (endpoint: MovieEndpoint = "popular") =>
     queryKey: ["movies", endpoint],
     queryFn: () =>
       apiClient.get(`/movie/${endpoint}`).then((res) => res.data.results),
+    staleTime: 1000 * 60 * 60 * 24, // 24 hours
   });
 
 export default useMovies;

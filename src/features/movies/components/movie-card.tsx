@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Movie } from "../hooks/queries/use-movies";
 import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 
 type MovieCardProps = {
   movie: Movie;
@@ -17,13 +18,21 @@ const MovieCard = ({ movie }: MovieCardProps) => {
           src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
           alt={movie.title}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+          loading="lazy"
         />
       </div>
       <CardHeader>
-        <CardTitle>
-          <span className="text-xl font-semibold tracking-tighter">
-            {movie.title}
-          </span>
+        <CardTitle className="flex flex-col gap-y-2">
+          <div className="flex items-center gap-x-4">
+            <span className="text-xl font-semibold tracking-tighter">
+              {movie.title}
+            </span>
+
+            <Badge>{movie.vote_average.toFixed(1)}</Badge>
+          </div>
+          <div className="text-sm text-muted-foreground">
+            released: {movie.release_date}
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent>
