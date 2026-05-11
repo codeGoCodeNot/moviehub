@@ -1,12 +1,10 @@
 import EndpointSelector from "@/components/endpoint-selector";
 import Placeholder from "@/components/placeholder";
+import useEndpoint from "@/state-management/hooks/useEndpoint";
 import { LucideLoader } from "lucide-react";
-import { useState } from "react";
 import { titles } from "../constants";
-import type { MovieEndpoint } from "../hooks/queries/use-movies";
 import useMovies from "../hooks/queries/use-movies";
 import MovieCard from "./movie-card";
-import useEndpoint from "@/state-management/hooks/useEndpoint";
 
 const MoviesList = () => {
   const { movieEndpoint, setMovieEndpoint } = useEndpoint();

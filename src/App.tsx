@@ -1,5 +1,6 @@
 import Navbar from "./components/layout/navbar";
 import MoviesList from "./features/movies/components/movies-list";
+import PeopleList from "./features/people/components/people-list";
 import TvSeriesList from "./features/tvs/components/tv-series-list";
 
 const App = () => {
@@ -8,6 +9,7 @@ const App = () => {
       <Navbar />
       <MoviesList />
       <TvSeriesList />
+      <PeopleList />
     </div>
   );
 };

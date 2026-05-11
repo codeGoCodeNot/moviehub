@@ -12,7 +12,7 @@ const MovieCard = ({ movie }: MovieCardProps) => {
   const [expandedId, setExpandedId] = useState<number | null>(null);
 
   return (
-    <Card key={movie.id} className="pt-0">
+    <Card className="pt-0">
       <div>
         <img
           src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}

@@ -11,7 +11,7 @@ type TvCardProps = {
 const TvCard = ({ tv }: TvCardProps) => {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   return (
-    <Card key={tv.id} className="pt-0">
+    <Card className="pt-0">
       <div>
         <img
           src={`https://image.tmdb.org/t/p/original${tv.poster_path}`}
