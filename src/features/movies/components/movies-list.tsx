@@ -13,17 +13,13 @@ const MoviesList = () => {
     setMovieEndpoint,
     selectedGenreId,
     setSelectedGenreId,
-    currentContentType,
     setCurrentContentType,
   } = useEndpoint();
 
   useEffect(() => {
     setCurrentContentType("movie");
-  }, [setCurrentContentType]);
-
-  useEffect(() => {
     setSelectedGenreId(null);
-  }, [currentContentType, setSelectedGenreId]);
+  }, [setCurrentContentType, setSelectedGenreId]);
   const {
     data: movies,
     isLoading,

@@ -13,17 +13,13 @@ const TvSeriesList = () => {
     setTvEndpoint,
     selectedGenreId,
     setSelectedGenreId,
-    currentContentType,
     setCurrentContentType,
   } = useEndpoint();
 
   useEffect(() => {
     setCurrentContentType("tv");
-  }, [setCurrentContentType]);
-
-  useEffect(() => {
     setSelectedGenreId(null);
-  }, [currentContentType, setSelectedGenreId]);
+  }, [setCurrentContentType, setSelectedGenreId]);
   const { data: tvs, error, isLoading } = useTvs(tvEndpoint, selectedGenreId);
 
   if (error) return <Placeholder title="Failed to load tv series." />;
