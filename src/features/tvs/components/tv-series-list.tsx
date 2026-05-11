@@ -7,10 +7,10 @@ import { titles } from "../constants";
 import useEndpoint from "@/state-management/hooks/useEndpoint";
 
 const TvSeriesList = () => {
-  const { tvEndpoint, setTvEndpoint } = useEndpoint();
-  const { data: tvs, error, isLoading } = useTvs(tvEndpoint);
+  const { tvEndpoint, setTvEndpoint, selectedGenreId } = useEndpoint();
+  const { data: tvs, error, isLoading } = useTvs(tvEndpoint, selectedGenreId);
 
-  if (error) return <Placeholder title="Failed to load movies." />;
+  if (error) return <Placeholder title="Failed to load tv series." />;
 
   if (isLoading)
     return (
@@ -31,7 +31,7 @@ const TvSeriesList = () => {
           titles={titles}
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}>
         {tvs?.map((tv) => (
           <TvCard tv={tv} key={tv.id} />
         ))}

@@ -19,12 +19,22 @@ export type TVEndpoint =
   | "popular"
   | "top_rated";
 
-const useTvs = (endpoint: TVEndpoint = "popular") =>
+const useTvs = (endpoint: TVEndpoint = "popular", genreId?: number | null) =>
   useQuery<TV[]>({
-    queryKey: ["tvs", endpoint],
-    queryFn: () =>
-      apiClient.get(`/tv/${endpoint}`).then((res) => res.data.results),
-    staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    queryKey: ["tvs", endpoint, genreId],
+    queryFn: () => {
+      if (genreId) {
+        return apiClient
+          .get("/discover/tv", {
+            params: { with_genres: genreId, sort_by: "popularity.desc" },
+          })
+          .then((res) => res.data.results);
+      }
+      return apiClient
+        .get(`/tv/${endpoint}`)
+        .then((res) => res.data.results);
+    },
+    // staleTime: 1000 * 60 * 60 * 24, // 24 hours
   });
 
 export default useTvs;

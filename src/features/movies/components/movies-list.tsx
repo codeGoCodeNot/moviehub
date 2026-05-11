@@ -7,8 +7,12 @@ import useMovies from "../hooks/queries/use-movies";
 import MovieCard from "./movie-card";
 
 const MoviesList = () => {
-  const { movieEndpoint, setMovieEndpoint } = useEndpoint();
-  const { data: movies, isLoading, error } = useMovies(movieEndpoint);
+  const { movieEndpoint, setMovieEndpoint, selectedGenreId } = useEndpoint();
+  const {
+    data: movies,
+    isLoading,
+    error,
+  } = useMovies(movieEndpoint, selectedGenreId);
 
   if (error) return <Placeholder title="Failed to load movies." />;
 
@@ -31,7 +35,7 @@ const MoviesList = () => {
           titles={titles}
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}>
         {movies?.map((movie) => (
           <MovieCard movie={movie} key={movie.id} />
         ))}

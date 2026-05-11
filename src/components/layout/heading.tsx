@@ -5,7 +5,7 @@ import TvSeriesList from "@/features/tvs/components/tv-series-list";
 
 const Heading = () => {
   return (
-    <div>
+    <div className="py-20 ">
       <Tabs defaultValue="movies">
         <TabsList className="ml-10">
           <TabsTrigger value="movies">Movies</TabsTrigger>

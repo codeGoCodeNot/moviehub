@@ -12,12 +12,12 @@ const MovieCard = ({ movie }: MovieCardProps) => {
   const [expandedId, setExpandedId] = useState<number | null>(null);
 
   return (
-    <Card className="pt-0">
+    <Card className="pt-0 min-w-[300px]">
       <div>
         <img
           src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
           alt={movie.title}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+          className="w-full h-full object-cover"
           loading="lazy"
         />
       </div>

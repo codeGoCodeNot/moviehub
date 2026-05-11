@@ -1,18 +1,20 @@
 import Heading from "./components/layout/heading";
 import Navbar from "./components/layout/navbar";
-import MoviesList from "./features/movies/components/movies-list";
-import PeopleList from "./features/people/components/people-list";
-import TvSeriesList from "./features/tvs/components/tv-series-list";
+import GenreList from "./features/genre/components/genre-list";
 
 const App = () => {
   return (
     <div className="flex flex-col gap-y-5">
       <Navbar />
-      <div className="py-20">
-        <Heading />
-        <MoviesList />
-        <TvSeriesList />
-        <PeopleList />
+
+      <div className="flex justify-center">
+        <div>
+          <GenreList />
+        </div>
+
+        <div>
+          <Heading />
+        </div>
       </div>
     </div>
   );
