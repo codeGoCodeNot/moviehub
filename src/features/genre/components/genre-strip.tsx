@@ -10,7 +10,8 @@ import useEndpointStore from "@/state-management/stores/useEndPointStore";
 
 const GenreStrip = () => {
   const { data: genres, isLoading, error } = useGenres("movie");
-  const { setSelectedGenreId, selectedGenreId } = useEndpointStore();
+  const selectedGenreId = useEndpointStore((s) => s.selectedGenreId);
+  const setSelectedGenreId = useEndpointStore((s) => s.setSelectedGenreId);
 
   if (error || isLoading) return null;
 
