@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import MovieCard from "@/features/movies/components/movie-card";
 import MovieCardSkeleton from "@/features/movies/components/movie-card-skeleton";
 import { useSearchMovies } from "@/features/search/hooks/use-search-movies";
@@ -12,11 +11,6 @@ import { useInView } from "react-intersection-observer";
 
 const SearchResult = () => {
   const searchQuery = useEndpointStore((s) => s.searchQuery);
-  const [displayedPages, setDisplayedPages] = useState(1);
-
-  useEffect(() => {
-    setDisplayedPages(1);
-  }, [searchQuery]);
 
   const {
     data: movieData,
@@ -42,36 +36,24 @@ const SearchResult = () => {
     isFetchingNextPage: peopleFetching,
   } = useSearchPerson(searchQuery);
 
-  const movieResults =
-    movieData?.pages.slice(0, displayedPages).flatMap((p) => p.results) ?? [];
-  const tvResults =
-    tvData?.pages.slice(0, displayedPages).flatMap((p) => p.results) ?? [];
-  const personResults =
-    personData?.pages.slice(0, displayedPages).flatMap((p) => p.results) ?? [];
-
   const isFetching = moviesFetching || tvsFetching || peopleFetching;
-  const allAtEnd = !moviesHasNext && !tvHasNext && !peopleHasNext;
+  const hasNext = moviesHasNext || tvHasNext || peopleHasNext;
 
   const { ref } = useInView({
     onChange: (inView) => {
-      if (!inView || allAtEnd || isFetching) return;
+      if (!inView || isFetching) return;
       if (moviesHasNext) fetchMovies();
       if (tvHasNext) fetchTv();
       if (peopleHasNext) fetchPeople();
-      setDisplayedPages((p) => p + 1);
     },
   });
 
-  const isLoading = moviesLoading || tvsLoading || personsLoading;
-
-  if (isLoading)
+  if (moviesLoading || tvsLoading || personsLoading)
     return (
       <div className="py-15 px-10">
         <div
           className="grid gap-6"
-          style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-          }}
+          style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}
         >
           {Array.from({ length: 10 }).map((_, i) => (
             <MovieCardSkeleton key={i} />
@@ -87,30 +69,25 @@ const SearchResult = () => {
         className="grid gap-6"
         style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}
       >
-        {movieResults.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-        {tvResults.map((tv) => (
-          <TvCard key={tv.id} tv={tv} />
-        ))}
-        {personResults.map((person) => (
-          <PersonCard key={person.id} person={person} />
-        ))}
+        {movieData?.pages.flatMap((p) =>
+          p.results.map((movie) => <MovieCard key={movie.id} movie={movie} />),
+        )}
+        {tvData?.pages.flatMap((p) =>
+          p.results.map((tv) => <TvCard key={tv.id} tv={tv} />),
+        )}
+        {personData?.pages.flatMap((p) =>
+          p.results.map((person) => <PersonCard key={person.id} person={person} />),
+        )}
       </div>
       <div ref={ref} className="py-10 text-center">
-        {isFetching ? (
+        {isFetching && (
           <Button variant="link" className="text-muted-foreground text-xs">
             Loading more...
           </Button>
-        ) : allAtEnd && displayedPages > 1 ? (
-          <Button
-            variant="link"
-            className="text-muted-foreground text-xs"
-            onClick={() => setDisplayedPages(1)}
-          >
-            Show Less
-          </Button>
-        ) : null}
+        )}
+        {!hasNext && !isFetching && (
+          <p className="text-muted-foreground text-xs">No more results</p>
+        )}
       </div>
     </div>
   );

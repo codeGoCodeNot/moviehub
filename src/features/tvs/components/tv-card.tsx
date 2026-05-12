@@ -1,60 +1,56 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { TV } from "../entities/type";
 import { Link } from "react-router-dom";
+import { TV } from "../entities/type";
 
-type TvCardProps = {
-  tv: TV;
-};
+type TvCardProps = { tv: TV };
 
 const TvCard = ({ tv }: TvCardProps) => {
-  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState(false);
+
   return (
-    <Card className="pt-0">
-      <div>
+    <Card className="pt-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:ring-foreground/20">
+      <div className="group overflow-hidden aspect-[2/3]">
         <img
           src={
             tv.poster_path
-              ? `https://image.tmdb.org/t/p/original${tv.poster_path}`
+              ? `https://image.tmdb.org/t/p/w500${tv.poster_path}`
               : "/placeholder.png"
           }
           alt={tv.name}
           loading="lazy"
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>
       <CardHeader>
         <CardTitle className="flex flex-col gap-y-2">
-          <div className="flex items-center gap-x-4">
+          <div className="flex items-center gap-x-3 flex-wrap gap-y-1">
             <Link to={`/tv/${tv.id}`} className="group relative inline-block">
-              <span className="text-xl font-semibold tracking-tighter">
+              <span className="text-xl font-semibold tracking-tighter transition-colors duration-200 group-hover:text-blue-500">
                 {tv.name}
               </span>
-              <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full" />
+              <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-blue-500 transition-all duration-300 group-hover:w-full" />
             </Link>
-
-            <Badge>{tv.vote_average.toFixed(1)}</Badge>
+            <Badge className="shrink-0">{tv.vote_average.toFixed(1)}</Badge>
           </div>
-          <div className="text-sm text-muted-foreground">
-            first air date: {tv.first_air_date}
-          </div>
+          <div className="text-sm text-muted-foreground">{tv.first_air_date}</div>
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-muted-foreground">
-          {expandedId === tv.id
-            ? tv.overview
-            : `${tv.overview.substring(0, 100)}...`}
+        <p className={`text-muted-foreground text-sm leading-relaxed${!expanded ? " line-clamp-3" : ""}`}>
+          {tv.overview}
         </p>
-        <Button
-          variant="link"
-          onClick={() => setExpandedId(expandedId === tv.id ? null : tv.id)}
-          className="px-0 text-muted-foreground text-xs"
-        >
-          {expandedId === tv.id ? "Show Less" : "Read More"}
-        </Button>
+        {tv.overview?.length > 150 && (
+          <Button
+            variant="link"
+            onClick={() => setExpanded((v) => !v)}
+            className="px-0 text-muted-foreground text-xs h-auto py-1"
+          >
+            {expanded ? "Show Less" : "Read More"}
+          </Button>
+        )}
       </CardContent>
     </Card>
   );
