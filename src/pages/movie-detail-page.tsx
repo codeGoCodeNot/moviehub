@@ -1,17 +1,15 @@
+import CastSection from "@/components/cast-section";
 import useMovie from "@/features/movies/hooks/queries/use-movie";
-import { useState } from "react";
 import { useParams } from "react-router-dom";
 
 const MovieDetailPage = () => {
   const { id } = useParams();
-
   const { data: movie } = useMovie(+id!);
-  const [showTrailer, setShowTrailer] = useState(false);
 
   const imageUrl = `https://image.tmdb.org/t/p/w1280${movie?.backdrop_path}`;
 
   return (
-    <div className="py-15 min-h-screen">
+    <div className="py-15 min-h-screen flex flex-col gap-y-10">
       <div
         className="relative h-196 rounded-sm overflow-hidden"
         style={{
@@ -62,6 +60,8 @@ const MovieDetailPage = () => {
           </div>
         </div>
       </div>
+
+      <CastSection type="movie" id={+id!} />
     </div>
   );
 };
