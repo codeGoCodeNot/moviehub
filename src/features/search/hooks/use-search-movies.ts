@@ -1,6 +1,6 @@
+import { Movie } from "@/features/movies/entities/type";
 import apiClient from "@/services/api-client";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Movie } from "../../movies/hooks/queries/use-movies";
 
 export type SearchPage<T> = { results: T[]; totalPages: number };
 
@@ -11,7 +11,10 @@ export const useSearchMovies = (query: string) => {
       const { data } = await apiClient.get(`/search/movie`, {
         params: { query, page: pageParam },
       });
-      return { results: data.results.slice(0, 10), totalPages: data.total_pages };
+      return {
+        results: data.results.slice(0, 10),
+        totalPages: data.total_pages,
+      };
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) =>

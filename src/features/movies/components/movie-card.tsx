@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Movie } from "../hooks/queries/use-movies";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
+import { Movie } from "../entities/type";
 
 type MovieCardProps = {
   movie: Movie;
@@ -28,9 +29,15 @@ const MovieCard = ({ movie }: MovieCardProps) => {
       <CardHeader>
         <CardTitle className="flex flex-col gap-y-2">
           <div className="flex items-center gap-x-4">
-            <span className="text-xl font-semibold tracking-tighter">
-              {movie.title}
-            </span>
+            <Link
+              to={`/movies/${movie.id}`}
+              className="group relative inline-block"
+            >
+              <span className="text-xl font-semibold tracking-tighter transition-all duration-300 group-hover:text-blue-500 group-hover:scale-105">
+                {movie.title}
+              </span>
+              <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full" />
+            </Link>
 
             <Badge>{movie.vote_average.toFixed(1)}</Badge>
           </div>

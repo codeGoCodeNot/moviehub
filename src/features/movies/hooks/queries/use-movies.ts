@@ -1,21 +1,6 @@
 import apiClient from "@/services/api-client";
 import { useInfiniteQuery } from "@tanstack/react-query";
-
-export type Movie = {
-  id: number;
-  title: string;
-  overview: string;
-  release_date: string;
-  poster_path: string;
-  genre_ids: number[];
-  vote_average: number;
-};
-
-export type MovieEndpoint =
-  | "popular"
-  | "top_rated"
-  | "upcoming"
-  | "now_playing";
+import { MovieEndpoint, Movie } from "../../entities/type";
 
 const useMovies = (
   endpoint: MovieEndpoint = "popular",

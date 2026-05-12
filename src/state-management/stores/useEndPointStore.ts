@@ -1,4 +1,4 @@
-import { MovieEndpoint } from "@/features/movies/hooks/queries/use-movies";
+import { MovieEndpoint } from "@/features/movies/entities/type";
 import { PeopleEndpoint } from "@/features/people/hooks/queries/use-people";
 import { TVEndpoint } from "@/features/tvs/hooks/queries/use-tvs";
 import { create } from "zustand";
