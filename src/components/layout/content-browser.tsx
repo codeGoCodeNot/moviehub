@@ -5,6 +5,7 @@ import GenreStrip from "@/features/genre/components/genre-strip";
 import useEndpointStore from "@/state-management/stores/useEndPointStore";
 import { cn } from "@/lib/utils";
 import SearchResult from "@/features/search/components/search-result";
+import ScrollToTop from "../scroll-to-top";
 
 const TABS = [
   { value: "movies", label: "Movies" },
@@ -53,6 +54,8 @@ const ContentBrowser = () => {
       {(activeTab === null || activeTab === "movies") && <MoviesList />}
       {(activeTab === null || activeTab === "tv") && <TvSeriesList />}
       {(activeTab === null || activeTab === "people") && <PeopleList />}
+
+      <ScrollToTop />
     </div>
   );
 };
