@@ -1,23 +1,6 @@
 import apiClient from "@/services/api-client";
 import { useInfiniteQuery } from "@tanstack/react-query";
-
-export type TV = {
-  id: number;
-  name: string;
-  overview: string;
-  first_air_date: string;
-  poster_path: string;
-  genre_ids: number[];
-  vote_average: number;
-  original_name: string;
-  origin_country: string[];
-};
-
-export type TVEndpoint =
-  | "airing_today"
-  | "on_the_air"
-  | "popular"
-  | "top_rated";
+import { TVEndpoint, TV } from "../../entities/type";
 
 const useTvs = (endpoint: TVEndpoint = "popular", genreId?: number | null) =>
   useInfiniteQuery<{ results: TV[]; totalPages: number }>({

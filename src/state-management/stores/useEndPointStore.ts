@@ -1,6 +1,6 @@
 import { MovieEndpoint } from "@/features/movies/entities/type";
 import { PeopleEndpoint } from "@/features/people/hooks/queries/use-people";
-import { TVEndpoint } from "@/features/tvs/hooks/queries/use-tvs";
+import { TVEndpoint } from "@/features/tvs/entities/type";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 

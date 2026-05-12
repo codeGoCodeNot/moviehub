@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "./error-page";
 import Layout from "@/pages/layout";
 import MovieDetailPage from "@/pages/movie-detail-page";
+import TvDetailPage from "@/pages/tv-detail-page";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "movies/:id", element: <MovieDetailPage /> },
+      { path: "tv/:id", element: <TvDetailPage /> },
     ],
   },
 ]);

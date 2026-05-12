@@ -1,16 +1,16 @@
 import CastSection from "@/components/cast-section";
-import useMovie from "@/features/movies/hooks/queries/use-movie";
 import { Badge } from "@/components/ui/badge";
-import { useParams } from "react-router-dom";
-import { Star, Clock, Calendar } from "lucide-react";
+import useTv from "@/features/tvs/hooks/queries/use-tv";
 import formatRuntime from "@/features/utils/format-time-runner";
+import { Calendar, Clock, Star } from "lucide-react";
+import { useParams } from "react-router-dom";
 
-const MovieDetailPage = () => {
+const TvDetailPage = () => {
   const { id } = useParams();
-  const { data: movie } = useMovie(+id!);
+  const { data: tv } = useTv(+id!);
 
-  const backdropUrl = `https://image.tmdb.org/t/p/w1280${movie?.backdrop_path}`;
-  const posterUrl = `https://image.tmdb.org/t/p/w500${movie?.poster_path}`;
+  const backdropUrl = `https://image.tmdb.org/t/p/w1280${tv?.backdrop_path}`;
+  const posterUrl = `https://image.tmdb.org/t/p/w500${tv?.poster_path}`;
 
   return (
     <div className="min-h-screen">
@@ -46,7 +46,7 @@ const MovieDetailPage = () => {
             <div className="hidden sm:block flex-shrink-0">
               <img
                 src={posterUrl}
-                alt={movie?.title}
+                alt={tv?.name}
                 className="w-32 md:w-44 lg:w-48 rounded-xl object-cover shadow-2xl ring-1 ring-white/10 hover:scale-[1.03] hover:ring-white/30 transition-all duration-500"
                 style={{ aspectRatio: "2/3" }}
               />
@@ -58,13 +58,13 @@ const MovieDetailPage = () => {
               <div className="flex sm:hidden items-end gap-4 mb-1">
                 <img
                   src={posterUrl}
-                  alt={movie?.title}
+                  alt={tv?.name}
                   className="w-20 rounded-lg object-cover shadow-xl ring-1 ring-white/10 flex-shrink-0"
                   style={{ aspectRatio: "2/3" }}
                 />
                 {/* Genres on mobile sit next to mini poster */}
                 <div className="flex flex-wrap gap-1 pb-1">
-                  {movie?.genres?.slice(0, 3).map((genre) => (
+                  {tv?.genres?.slice(0, 3).map((genre) => (
                     <Badge
                       key={genre.id}
                       variant="secondary"
@@ -78,7 +78,7 @@ const MovieDetailPage = () => {
 
               {/* Genres — desktop only */}
               <div className="hidden sm:flex flex-wrap gap-1.5">
-                {movie?.genres?.map((genre) => (
+                {tv?.genres?.map((genre) => (
                   <Badge
                     key={genre.id}
                     variant="secondary"
@@ -91,18 +91,18 @@ const MovieDetailPage = () => {
 
               {/* Title */}
               <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white leading-tight tracking-tight">
-                {movie?.title}
-                {movie?.release_date && (
+                {tv?.name}
+                {tv?.first_air_date && (
                   <span className="ml-2 sm:ml-3 text-xl sm:text-3xl font-normal text-white/65">
-                    ({movie.release_date.slice(0, 4)})
+                    ({tv.first_air_date.slice(0, 4)})
                   </span>
                 )}
               </h1>
 
               {/* Tagline */}
-              {movie?.tagline && (
+              {tv?.tagline && (
                 <p className="text-white/75 italic text-xs sm:text-sm tracking-wide line-clamp-1">
-                  "{movie.tagline}"
+                  "{tv.tagline}"
                 </p>
               )}
 
@@ -111,41 +111,41 @@ const MovieDetailPage = () => {
                 <span className="flex items-center gap-1.5">
                   <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400 flex-shrink-0" />
                   <span className="text-white font-semibold">
-                    {movie?.vote_average.toFixed(1)}
+                    {tv?.vote_average.toFixed(1)}
                   </span>
                   <span className="text-white/60 text-xs hidden sm:inline">
-                    / 10 · {movie?.vote_count?.toLocaleString()} votes
+                    / 10 · {tv?.vote_count?.toLocaleString()} votes
                   </span>
                   <span className="text-white/60 text-xs sm:hidden">/ 10</span>
                 </span>
 
-                {formatRuntime(movie?.runtime) && (
+                {formatRuntime(tv?.episode_run_time?.[0]) && (
                   <span className="flex items-center gap-1.5">
                     <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-50 flex-shrink-0" />
-                    {formatRuntime(movie?.runtime)}
+                    {formatRuntime(tv?.episode_run_time?.[0])}
                   </span>
                 )}
 
-                {movie?.release_date && (
+                {tv?.first_air_date && (
                   <span className="flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-50 flex-shrink-0" />
-                    {movie.release_date}
+                    {tv.first_air_date}
                   </span>
                 )}
 
-                {movie?.status && (
+                {tv?.status && (
                   <Badge
                     variant="outline"
                     className="border-white/30 text-white/80 text-xs"
                   >
-                    {movie.status}
+                    {tv.status}
                   </Badge>
                 )}
               </div>
 
               {/* Overview */}
               <p className="text-white/90 text-xs sm:text-sm leading-relaxed max-w-2xl line-clamp-3 sm:line-clamp-4">
-                {movie?.overview}
+                {tv?.overview}
               </p>
             </div>
           </div>
@@ -154,10 +154,10 @@ const MovieDetailPage = () => {
 
       {/* ── Cast ── */}
       <div className="max-w-6xl mx-auto px-4 sm:px-8 lg:px-10 py-8 sm:py-10">
-        <CastSection type="movie" id={+id!} />
+        <CastSection type="tv" id={+id!} />
       </div>
     </div>
   );
 };
 
-export default MovieDetailPage;
+export default TvDetailPage;

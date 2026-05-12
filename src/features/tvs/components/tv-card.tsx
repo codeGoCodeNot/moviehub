@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
-import { TV } from "../hooks/queries/use-tvs";
 import { Badge } from "@/components/ui/badge";
+import { TV } from "../entities/type";
+import { Link } from "react-router-dom";
 
 type TvCardProps = {
   tv: TV;
@@ -27,9 +28,12 @@ const TvCard = ({ tv }: TvCardProps) => {
       <CardHeader>
         <CardTitle className="flex flex-col gap-y-2">
           <div className="flex items-center gap-x-4">
-            <span className="text-xl font-semibold tracking-tighter">
-              {tv.name}
-            </span>
+            <Link to={`/tv/${tv.id}`} className="group relative inline-block">
+              <span className="text-xl font-semibold tracking-tighter">
+                {tv.name}
+              </span>
+              <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full" />
+            </Link>
 
             <Badge>{tv.vote_average.toFixed(1)}</Badge>
           </div>
