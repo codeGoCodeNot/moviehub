@@ -1,5 +1,5 @@
 import apiClient from "@/services/api-client";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 export type TV = {
   id: number;
@@ -20,20 +20,27 @@ export type TVEndpoint =
   | "top_rated";
 
 const useTvs = (endpoint: TVEndpoint = "popular", genreId?: number | null) =>
-  useQuery<TV[]>({
+  useInfiniteQuery<{ results: TV[]; totalPages: number }>({
     queryKey: ["tvs", endpoint, genreId],
-    queryFn: () => {
+    queryFn: async ({ pageParam = 1 }) => {
       if (genreId) {
-        return apiClient
-          .get("/discover/tv", {
-            params: { with_genres: genreId, sort_by: "popularity.desc" },
-          })
-          .then((res) => res.data.results);
+        const { data } = await apiClient.get("/discover/tv", {
+          params: {
+            with_genres: genreId,
+            sort_by: "popularity.desc",
+            page: pageParam,
+          },
+        });
+        return { results: data.results, totalPages: data.total_pages };
       }
-      return apiClient
-        .get(`/tv/${endpoint}`)
-        .then((res) => res.data.results);
+      const { data } = await apiClient.get(`/tv/${endpoint}`, {
+        params: { page: pageParam },
+      });
+      return { results: data.results, totalPages: data.total_pages };
     },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) =>
+      allPages.length < lastPage.totalPages ? allPages.length + 1 : undefined,
     staleTime: 1000 * 60 * 60 * 24,
   });
 

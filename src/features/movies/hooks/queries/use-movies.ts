@@ -1,5 +1,5 @@
 import apiClient from "@/services/api-client";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 export type Movie = {
   id: number;
@@ -21,20 +21,27 @@ const useMovies = (
   endpoint: MovieEndpoint = "popular",
   genreId?: number | null,
 ) =>
-  useQuery<Movie[]>({
+  useInfiniteQuery<{ results: Movie[]; totalPages: number }>({
     queryKey: ["movies", endpoint, genreId],
-    queryFn: () => {
+    queryFn: async ({ pageParam = 1 }) => {
       if (genreId) {
-        return apiClient
-          .get("/discover/movie", {
-            params: { with_genres: genreId, sort_by: "popularity.desc" },
-          })
-          .then((res) => res.data.results);
+        const { data } = await apiClient.get("/discover/movie", {
+          params: {
+            with_genres: genreId,
+            sort_by: "popularity.desc",
+            page: pageParam,
+          },
+        });
+        return { results: data.results, totalPages: data.total_pages };
       }
-      return apiClient
-        .get(`/movie/${endpoint}`)
-        .then((res) => res.data.results);
+      const { data } = await apiClient.get(`/movie/${endpoint}`, {
+        params: { page: pageParam },
+      });
+      return { results: data.results, totalPages: data.total_pages };
     },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) =>
+      allPages.length < lastPage.totalPages ? allPages.length + 1 : undefined,
     staleTime: 1000 * 60 * 60 * 24,
   });
 

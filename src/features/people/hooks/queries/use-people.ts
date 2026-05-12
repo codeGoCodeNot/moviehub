@@ -1,5 +1,5 @@
 import apiClient from "@/services/api-client";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export type Person = {
   id: number;
@@ -28,10 +28,16 @@ export type KnownFor = {
 export type PeopleEndpoint = "popular";
 
 const usePeople = (endpoint: PeopleEndpoint = "popular") =>
-  useQuery<Person[]>({
+  useInfiniteQuery<{ results: Person[]; totalPages: number }>({
     queryKey: ["people", endpoint],
-    queryFn: () =>
-      apiClient.get(`/person/${endpoint}`).then((res) => res.data.results),
+    queryFn: ({ pageParam = 1 }) =>
+      apiClient.get(`/person/${endpoint}?page=${pageParam}`).then((res) => ({
+        results: res.data.results,
+        totalPages: res.data.total_pages,
+      })),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) =>
+      allPages.length < lastPage.totalPages ? allPages.length + 1 : undefined,
     staleTime: 1000 * 60 * 60 * 24, // 24 hours
   });
 

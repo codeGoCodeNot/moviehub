@@ -5,22 +5,38 @@ import { titles } from "../constants";
 import useMovies from "../hooks/queries/use-movies";
 import MovieCard from "./movie-card";
 import MovieCardSkeleton from "./movie-card-skeleton";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { Button } from "@/components/ui/button";
 
 const MoviesList = () => {
   const movieEndpoint = useEndpointStore((s) => s.movieEndpoint);
   const setMovieEndpoint = useEndpointStore((s) => s.setMovieEndpoint);
   const selectedGenreId = useEndpointStore((s) => s.selectedGenreId);
   const setSelectedGenreId = useEndpointStore((s) => s.setSelectedGenreId);
+  const [displayedPages, setDisplayedPages] = useState(1);
 
   useEffect(() => {
     setSelectedGenreId(null);
-  }, [setSelectedGenreId]);
+    setDisplayedPages(1);
+  }, [setSelectedGenreId, movieEndpoint, selectedGenreId]);
+
   const {
     data: movies,
     isLoading,
     error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
   } = useMovies(movieEndpoint, selectedGenreId);
+
+  const { ref } = useInView({
+    onChange: (inView) => {
+      if (!inView || !hasNextPage || isFetchingNextPage) return;
+      if (hasNextPage) fetchNextPage();
+      setDisplayedPages((prev) => prev + 1);
+    },
+  });
 
   if (error) return <Placeholder title="Failed to load movies." />;
 
@@ -29,7 +45,9 @@ const MoviesList = () => {
       <div className="py-15 px-10">
         <div
           className="grid gap-6"
-          style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}
+          style={{
+            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+          }}
         >
           {Array.from({ length: 8 }).map((_, i) => (
             <MovieCardSkeleton key={i} />
@@ -54,9 +72,28 @@ const MoviesList = () => {
         className="grid gap-6"
         style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}
       >
-        {movies?.map((movie) => (
-          <MovieCard movie={movie} key={movie.id} />
-        ))}
+        {movies?.pages
+          .slice(0, displayedPages)
+          .flatMap((page) =>
+            page.results.map((movie) => (
+              <MovieCard movie={movie} key={movie.id} />
+            )),
+          )}
+      </div>
+      <div ref={ref} className="py-10 text-center">
+        {isFetchingNextPage ? (
+          <Button variant="link" className="text-muted-foreground text-xs">
+            Loading more...
+          </Button>
+        ) : !hasNextPage && displayedPages > 1 ? (
+          <Button
+            variant="link"
+            className="text-muted-foreground text-xs"
+            onClick={() => setDisplayedPages(1)}
+          >
+            Show Less
+          </Button>
+        ) : null}
       </div>
     </div>
   );
