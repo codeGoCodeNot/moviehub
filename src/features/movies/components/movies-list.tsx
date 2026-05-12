@@ -5,7 +5,7 @@ import { titles } from "../constants";
 import useMovies from "../hooks/queries/use-movies";
 import MovieCard from "./movie-card";
 import MovieCardSkeleton from "./movie-card-skeleton";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { Button } from "@/components/ui/button";
 
@@ -14,12 +14,10 @@ const MoviesList = () => {
   const setMovieEndpoint = useEndpointStore((s) => s.setMovieEndpoint);
   const selectedGenreId = useEndpointStore((s) => s.selectedGenreId);
   const setSelectedGenreId = useEndpointStore((s) => s.setSelectedGenreId);
-  const [displayedPages, setDisplayedPages] = useState(1);
 
   useEffect(() => {
     setSelectedGenreId(null);
-    setDisplayedPages(1);
-  }, [setSelectedGenreId, movieEndpoint, selectedGenreId]);
+  }, [setSelectedGenreId, movieEndpoint]);
 
   const {
     data: movies,
@@ -33,8 +31,7 @@ const MoviesList = () => {
   const { ref } = useInView({
     onChange: (inView) => {
       if (!inView || !hasNextPage || isFetchingNextPage) return;
-      if (hasNextPage) fetchNextPage();
-      setDisplayedPages((prev) => prev + 1);
+      fetchNextPage();
     },
   });
 
@@ -72,28 +69,16 @@ const MoviesList = () => {
         className="grid gap-6"
         style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}
       >
-        {movies?.pages
-          .slice(0, displayedPages)
-          .flatMap((page) =>
-            page.results.map((movie) => (
-              <MovieCard movie={movie} key={movie.id} />
-            )),
-          )}
+        {movies?.pages.flatMap((page) =>
+          page.results.map((movie) => <MovieCard movie={movie} key={movie.id} />),
+        )}
       </div>
       <div ref={ref} className="py-10 text-center">
-        {isFetchingNextPage ? (
+        {isFetchingNextPage && (
           <Button variant="link" className="text-muted-foreground text-xs">
             Loading more...
           </Button>
-        ) : !hasNextPage && displayedPages > 1 ? (
-          <Button
-            variant="link"
-            className="text-muted-foreground text-xs"
-            onClick={() => setDisplayedPages(1)}
-          >
-            Show Less
-          </Button>
-        ) : null}
+        )}
       </div>
     </div>
   );

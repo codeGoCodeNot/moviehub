@@ -30,11 +30,13 @@ export type PeopleEndpoint = "popular";
 const usePeople = (endpoint: PeopleEndpoint = "popular") =>
   useInfiniteQuery<{ results: Person[]; totalPages: number }>({
     queryKey: ["people", endpoint],
-    queryFn: ({ pageParam = 1 }) =>
-      apiClient.get(`/person/${endpoint}?page=${pageParam}`).then((res) => ({
-        results: res.data.results,
-        totalPages: res.data.total_pages,
-      })),
+    queryFn: ({ pageParam }) =>
+      apiClient
+        .get(`/person/${endpoint}`, { params: { page: pageParam } })
+        .then((res) => ({
+          results: res.data.results,
+          totalPages: res.data.total_pages,
+        })),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) =>
       allPages.length < lastPage.totalPages ? allPages.length + 1 : undefined,

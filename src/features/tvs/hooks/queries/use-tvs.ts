@@ -1,5 +1,5 @@
 import apiClient from "@/services/api-client";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export type TV = {
   id: number;
@@ -22,7 +22,7 @@ export type TVEndpoint =
 const useTvs = (endpoint: TVEndpoint = "popular", genreId?: number | null) =>
   useInfiniteQuery<{ results: TV[]; totalPages: number }>({
     queryKey: ["tvs", endpoint, genreId],
-    queryFn: async ({ pageParam = 1 }) => {
+    queryFn: async ({ pageParam }) => {
       if (genreId) {
         const { data } = await apiClient.get("/discover/tv", {
           params: {
