@@ -33,29 +33,31 @@ const ContentBrowser = () => {
   };
 
   return (
-    <div className="mt-20 ">
-      <div className="ml-10 inline-flex h-9 w-fit items-center justify-center rounded-lg bg-muted p-[3px] text-muted-foreground">
-        {TABS.map((tab) => (
-          <button
-            key={tab.value}
-            onClick={() => handleTabClick(tab.value)}
-            className={cn(
-              "relative inline-flex h-[calc(100%-1px)] items-center justify-center rounded-md border border-transparent px-3 py-1 text-sm font-medium whitespace-nowrap transition-all hover:text-foreground",
-              activeTab === tab.value
-                ? "bg-background text-foreground shadow-sm"
-                : "text-foreground/60",
-            )}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-      <GenreStrip />
-      {(activeTab === null || activeTab === "movies") && <MoviesList />}
-      {(activeTab === null || activeTab === "tv") && <TvSeriesList />}
-      {(activeTab === null || activeTab === "people") && <PeopleList />}
+    <div className="flex-1 min-w-0">
+      <div className="mt-20 ">
+        <div className="ml-10 inline-flex h-9 w-fit items-center justify-center rounded-lg bg-muted p-[3px] text-muted-foreground">
+          {TABS.map((tab) => (
+            <button
+              key={tab.value}
+              onClick={() => handleTabClick(tab.value)}
+              className={cn(
+                "relative inline-flex h-[calc(100%-1px)] items-center justify-center rounded-md border border-transparent px-3 py-1 text-sm font-medium whitespace-nowrap transition-all hover:text-foreground",
+                activeTab === tab.value
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-foreground/60",
+              )}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+        <GenreStrip />
+        {(activeTab === null || activeTab === "movies") && <MoviesList />}
+        {(activeTab === null || activeTab === "tv") && <TvSeriesList />}
+        {(activeTab === null || activeTab === "people") && <PeopleList />}
 
-      <ScrollToTop />
+        <ScrollToTop />
+      </div>
     </div>
   );
 };

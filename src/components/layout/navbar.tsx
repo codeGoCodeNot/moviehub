@@ -1,10 +1,11 @@
 import SearchInput from "@/features/search/components/search-input";
 import { LucideFilm } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
     <div className="flex flex-1 justify-between items-center px-5 min-h-[60px] bg-background/95 animate-fade-from-top fixed top-0 z-20 w-full">
-      <div className="flex gap-x-1 items-center animate-fade-from-top">
+      <Link to="/" className="flex gap-x-1 items-center animate-fade-from-top">
         <LucideFilm className="w-6 h-6" />
         <span
           style={{
@@ -20,7 +21,8 @@ const Navbar = () => {
         >
           Movie Query
         </span>
-      </div>
+      </Link>
+
       <SearchInput />
     </div>
   );
